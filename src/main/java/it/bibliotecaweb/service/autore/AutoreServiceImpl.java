@@ -46,7 +46,7 @@ public class AutoreServiceImpl implements AutoreService {
 	}
 
 	@Override
-	public void insert(Autore input) throws Exception {//non puoi inserire senza libri
+	public void insert(Autore input) throws Exception {
 		if (!list().contains(input)) {
 			EntityManager entityManager = EntityManagerUtil.getEntityManager();
 			try {

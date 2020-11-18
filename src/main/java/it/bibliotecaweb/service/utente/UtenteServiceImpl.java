@@ -105,4 +105,15 @@ public class UtenteServiceImpl implements UtenteService {
 		}
 	}
 
+	@Override
+	public Utente findUtenteByUsernamePassword(String username, String password) {
+		Utente utente = null;
+		if(username != null && password != null && !username.equals("") && !password.equals("")) {
+			EntityManager entityManager = EntityManagerUtil.getEntityManager();
+			utenteDAO.setEntityManager(entityManager);
+			utente = utenteDAO.findUtenteByUsernamePassword(username, password);
+		}
+		return utente;
+	}
+
 }

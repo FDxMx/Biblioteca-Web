@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import it.bibliotecaweb.model.StatoUtente;
 import it.bibliotecaweb.model.Utente;
@@ -51,6 +52,14 @@ public class UtenteDAOImpl implements UtenteDAO {
 	@Override
 	public void passaAInattivo(Utente utenteInput) {
 		utenteInput.setStato(StatoUtente.INATTIVO);
+	}
+
+	@Override
+	public Utente findUtenteByUsernamePassword(String username, String password) {
+		TypedQuery<Utente> query = entityManager.createQuery("from Utente u where u.username = ?1 and u.password = ?2", Utente.class);
+		query.setParameter(1, username);
+		query.setParameter(2, password);
+		return query.getSingleResult();
 	}
 
 }

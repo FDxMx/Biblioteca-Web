@@ -1,5 +1,6 @@
 package it.bibliotecaweb.test;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 import it.bibliotecaweb.entitymanager.EntityManagerUtil;
@@ -25,7 +26,8 @@ public class BibliotecaTest {
 		try {
 			
 //			INSERT AUTORE
-//			LocalDate data = LocalDate.of(1647, 11, 5 + 1); //attenzione al fuso orario in cui ci troviamo (+1)
+//			LocalDate data = LocalDate.of(1647, 11, 5); //attenzione al fuso orario in cui ci troviamo (+1)
+//			System.out.println(data);
 //			Autore autore = new Autore("Federico", "Meoni", data);
 //			autoreService.insert(autore);
 			
@@ -62,6 +64,9 @@ public class BibliotecaTest {
 //			Ruolo r = ruoloService.findById(1);
 //			utente.getRuoli().add(r);
 //			utenteService.insert(utente);
+			
+//			CERCA UTENTE DA USERNAME E PASSWORD
+//			System.out.println(utenteService.findUtenteByUsernamePassword("francy", "goal"));
 			
 		} catch (Exception e) {
 			e.printStackTrace();

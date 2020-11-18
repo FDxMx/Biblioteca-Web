@@ -36,6 +36,14 @@ public class Libro {
 		this.genere = genere;
 		this.trama = trama;
 	}
+	
+	public Libro(String titolo, String genere, String trama, Autore autore) {
+		super();
+		this.titolo = titolo;
+		this.genere = genere;
+		this.trama = trama;
+		this.autore = autore;
+	}
 
 	public int getId() {
 		return id;

@@ -47,6 +47,15 @@ public class Utente {
 		this.username = username;
 		this.password = password;
 	}
+	
+	public Utente(String nome, String cognome, String username, String password, Set<Ruolo> ruoli) {
+		super();
+		this.nome = nome;
+		this.cognome = cognome;
+		this.username = username;
+		this.password = password;
+		this.ruoli = ruoli;
+	}
 
 	public int getId() {
 		return id;

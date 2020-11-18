@@ -8,5 +8,7 @@ public interface UtenteDAO extends IBaseDAO<Utente> {
 	public void passaAdAttivo(Utente utenteInput);
 	
 	public void passaAInattivo(Utente utenteInput);
+	
+	public Utente findUtenteByUsernamePassword(String username, String password);
 
 }
