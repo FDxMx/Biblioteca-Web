@@ -8,7 +8,7 @@
 <html lang="it">
 <head>
 	<jsp:include page="./header.jsp" />
-	<title>Inserisci Autore</title>
+	<title>Aggiorna Autore</title>
 	
 	<!-- style per le pagine diverse dalla index -->
     <link href="./assets/css/global.css" rel="stylesheet">
@@ -21,32 +21,35 @@
 		
 		<div class='card'>
 		    <div class='card-header'>
-		        ${requestScope.errore}
-		        <h5>Inserisci autore</h5> 
+		    	
+		    	${requestScope.errore}
+		        <h5>Aggiorna autore</h5> 
 		        
 		    </div>
 		    <div class='card-body'>
 
-					<form method="post" action="InsertAutoreServlet" novalidate="novalidate">
+					<form method="post" action="ExecuteUpdateAutoreServlet" novalidate="novalidate">
+					
+					<input type="hidden" name="id" id="id" value="${requestScope.autore.id}">
 					
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label>Nome</label>
-								<input type="text" name="nome" id="nome" class="form-control" placeholder="Inserire il nome" required>
+								<input type="text" name="nome" id="nome" class="form-control" value= "${requestScope.autore.nome}" required>
 							</div>
 							
 							<div class="form-group col-md-6">
 								<label>Cognome</label>
-								<input type="text" name="cognome" id="cognome" class="form-control" placeholder="Inserire il cognome" required>
+								<input type="text" name="cognome" id="cognome" class="form-control" value="${requestScope.autore.cognome}" required>
 							</div>
 						
 							<div class="form-group col-md-3">
 								<label>Data di nascita</label>
-								<input type="date" class="form-control" name="data" id="data" placeholder="Inserire la data di nascita" required>
+								<input type="date" class="form-control" name="data" id="data" value = "${requestScope.autore.dataNascita}" required>
 							</div>
 						</div>
 							
-						<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Inserisci</button>
+						<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Aggiorna</button>
 					</form>
 			<!-- end card-body -->			   
 		    </div>

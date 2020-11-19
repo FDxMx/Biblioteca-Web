@@ -43,13 +43,14 @@ public class ExecuteInsertLibroServlet extends HttpServlet {
 		String autore = request.getParameter("autore");
 		
 		if(titolo == null || genere == null || trama == null || autore == null || titolo.equals("") || genere.equals("") || trama.equals("") || autore.equals("")) {
-			request.setAttribute("errore", "Attenzione, inserire tutti i campi");
-			request.getRequestDispatcher("insertLibro.jsp").forward(request, response);
+			request.setAttribute("errore", "Attenzione, inserire tutti i campi!");
+			request.getRequestDispatcher("PrepareInsertLibroServlet").forward(request, response);
 		}
 		
 		try {
 			Libro libro = new Libro(titolo, genere, trama, MyServiceFactory.getAutoreServiceInstance().findById(Integer.parseInt(autore)));
 			MyServiceFactory.getLibroServiceInstance().insert(libro);
+			request.setAttribute("effettuato", "Operazione effettuata con successo!");
 			request.setAttribute("listaLibri", MyServiceFactory.getLibroServiceInstance().list());
 		} catch (Exception e) {
 			e.printStackTrace();

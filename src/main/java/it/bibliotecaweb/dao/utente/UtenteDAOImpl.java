@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import it.bibliotecaweb.model.StatoUtente;
@@ -59,7 +60,12 @@ public class UtenteDAOImpl implements UtenteDAO {
 		TypedQuery<Utente> query = entityManager.createQuery("from Utente u where u.username = ?1 and u.password = ?2", Utente.class);
 		query.setParameter(1, username);
 		query.setParameter(2, password);
+		try {
 		return query.getSingleResult();
+		}catch (NoResultException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

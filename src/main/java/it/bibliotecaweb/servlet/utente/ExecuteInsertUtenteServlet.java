@@ -50,24 +50,31 @@ public class ExecuteInsertUtenteServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		String[] stringRuolo = request.getParameterValues("ruolo");
 
-		if (nome == null || cognome == null || username == null || password == null || stringRuolo == null || nome.equals("") || cognome.equals("") || username.equals("") || password.equals("")) {
+		if (nome == null || cognome == null || username == null || password == null || stringRuolo == null || nome.equals("") || cognome.equals("") || username.equals("") || password.equals("") || stringRuolo.length == 0) {
 			request.setAttribute("errore", "Attenzione, inserire tutti i campi");
 			request.getRequestDispatcher("PrepareInsertUtenteServlet").forward(request, response);
 		}
-
 		try {
-			Set<Ruolo> ruoli = new HashSet<>();
-			for (String s : stringRuolo) {
-				int id = Integer.parseInt(s);
-				Ruolo ruolo = MyServiceFactory.getRuoloServiceInstance().findById(id);
-				ruoli.add(ruolo);
+			for (Utente u : MyServiceFactory.getUtenteServiceInstance().list()) {
+				if(u.getUsername().equals(username)) {
+					request.setAttribute("errore", "Questo username è gia stato utilizzato!");
+					request.getRequestDispatcher("PrepareInsertUtenteServlet").forward(request, response);
+				}else {
+					Set<Ruolo> ruoli = new HashSet<>();
+					for (String s : stringRuolo) {
+						int id = Integer.parseInt(s);
+						Ruolo ruolo = MyServiceFactory.getRuoloServiceInstance().findById(id);
+						ruoli.add(ruolo);
+					}
+					Utente utente = new Utente(nome, cognome, username, password, ruoli);
+					MyServiceFactory.getUtenteServiceInstance().insert(utente);
+					request.setAttribute("effettuato", "Operazione effettuata con successo!");
+					request.getRequestDispatcher("ListaUtentiServlet").forward(request, response);
+				}
 			}
-			Utente utente = new Utente(nome, cognome, username, password, ruoli);
-			MyServiceFactory.getUtenteServiceInstance().insert(utente);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		request.getRequestDispatcher("ListaUtentiServlet").forward(request, response);
 	}
 
 }

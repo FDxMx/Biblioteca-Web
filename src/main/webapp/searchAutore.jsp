@@ -23,7 +23,11 @@
 		    <div class='card-header'>
 		        <h5>Ricerca autore</h5> 
 		        
+		        <c:forEach var="ruolo" items="${sessionScope.utenteSession.ruoli}">
+          		<c:if test="${ruolo.codice == 'ADMIN' or ruolo.codice == 'CLASSIC'}">
 		        <a class="btn btn-primary " href="insertAutore.jsp">Add New Autore</a>
+		        </c:if>
+       	 		</c:forEach>
 		    
 		    </div>
 		    <div class='card-body'>

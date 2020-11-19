@@ -89,6 +89,7 @@ public class Autore {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((cognome == null) ? 0 : cognome.hashCode());
+		result = prime * result + ((dataNascita == null) ? 0 : dataNascita.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		return result;
 	}
@@ -107,6 +108,11 @@ public class Autore {
 				return false;
 		} else if (!cognome.equals(other.cognome))
 			return false;
+		if (dataNascita == null) {
+			if (other.dataNascita != null)
+				return false;
+		} else if (!dataNascita.equals(other.dataNascita))
+			return false;
 		if (nome == null) {
 			if (other.nome != null)
 				return false;
@@ -114,5 +120,7 @@ public class Autore {
 			return false;
 		return true;
 	}
+
+	
 
 }

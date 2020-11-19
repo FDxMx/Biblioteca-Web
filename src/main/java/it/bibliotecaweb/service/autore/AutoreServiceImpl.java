@@ -15,14 +15,32 @@ public class AutoreServiceImpl implements AutoreService {
 	@Override
 	public Set<Autore> list() throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
-		autoreDAO.setEntityManager(entityManager);
+		try {
+			entityManager.getTransaction().begin();
+			autoreDAO.setEntityManager(entityManager);
+			autoreDAO.list();
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		}
 		return autoreDAO.list();
 	}
 
 	@Override
 	public Autore findById(int id) throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
-		autoreDAO.setEntityManager(entityManager);
+		try {
+			entityManager.getTransaction().begin();
+			autoreDAO.setEntityManager(entityManager);
+			autoreDAO.findById(id);
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		}
 		return autoreDAO.findById(id);
 	}
 

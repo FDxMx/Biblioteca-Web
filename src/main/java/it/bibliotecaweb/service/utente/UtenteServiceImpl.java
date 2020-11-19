@@ -15,14 +15,32 @@ public class UtenteServiceImpl implements UtenteService {
 	@Override
 	public Set<Utente> list() throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
-		utenteDAO.setEntityManager(entityManager);
+		try {
+			entityManager.getTransaction().begin();
+			utenteDAO.setEntityManager(entityManager);
+			utenteDAO.list();
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		}
 		return utenteDAO.list();
 	}
 
 	@Override
 	public Utente findById(int id) throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
-		utenteDAO.setEntityManager(entityManager);
+		try {
+			entityManager.getTransaction().begin();
+			utenteDAO.setEntityManager(entityManager);
+			utenteDAO.findById(id);
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		}
 		return utenteDAO.findById(id);
 	}
 
@@ -97,6 +115,7 @@ public class UtenteServiceImpl implements UtenteService {
 			entityManager.getTransaction().begin();
 			utenteDAO.setEntityManager(entityManager);
 			utenteDAO.passaAInattivo(utenteInput);
+			entityManager.merge(utenteInput);
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();

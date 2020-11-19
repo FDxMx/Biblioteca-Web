@@ -13,16 +13,16 @@ import it.bibliotecaweb.model.Autore;
 import it.bibliotecaweb.service.MyServiceFactory;
 
 /**
- * Servlet implementation class InsertAutoreServlet
+ * Servlet implementation class ExecuteUpdateAutoreServlet
  */
-@WebServlet("/InsertAutoreServlet")
-public class InsertAutoreServlet extends HttpServlet {
+@WebServlet("/ExecuteUpdateAutoreServlet")
+public class ExecuteUpdateAutoreServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InsertAutoreServlet() {
+    public ExecuteUpdateAutoreServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,24 +40,32 @@ public class InsertAutoreServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		String id = request.getParameter("id");
 		String nome = request.getParameter("nome");
 		String cognome = request.getParameter("cognome");
 		String stringData = request.getParameter("data");
 		
-		if(nome == null || cognome == null || stringData == null || nome.equals("") || cognome.equals("") || stringData.equals("")) {
+		if(id != null && !id.equals("")  && nome != null && !nome.equals("") && cognome != null && !cognome.equals("") && stringData != null && !stringData.equals("")) {
+			LocalDate data = LocalDate.parse(stringData);
+			Autore autore = new Autore(nome, cognome, data);
+			autore.setId(Integer.parseInt(id));
+			try {
+				if(MyServiceFactory.getAutoreServiceInstance().list().contains(autore)) {
+					request.setAttribute("errore", "Attenzione, nessuna modifica effettuata!");
+					request.setAttribute("idParametro", id);
+					request.getRequestDispatcher("PrepareUpdateAutoreServlet").forward(request, response);
+				}
+				MyServiceFactory.getAutoreServiceInstance().update(autore);
+				request.setAttribute("effettuato", "Operazione effettuata con successo!");
+				request.getRequestDispatcher("ListaAutoriServlet").forward(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else {
 			request.setAttribute("errore", "Attenzione, inserire tutti i campi!");
-			request.getRequestDispatcher("insertAutore.jsp").forward(request, response);
+			request.setAttribute("idParametro", id);
+			request.getRequestDispatcher("PrepareUpdateAutoreServlet").forward(request, response);
 		}
-		LocalDate data = LocalDate.parse(stringData);
-		Autore autore = new Autore(nome, cognome, data);
-		try {
-			MyServiceFactory.getAutoreServiceInstance().insert(autore);
-			request.setAttribute("effettuato", "Operazione effettuata con successo!");
-			request.setAttribute("listaAutori", MyServiceFactory.getAutoreServiceInstance().list());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		request.getRequestDispatcher("listaAutori.jsp").forward(request, response);
 	}
 
 }

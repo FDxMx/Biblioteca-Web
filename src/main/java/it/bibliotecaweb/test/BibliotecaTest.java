@@ -1,6 +1,5 @@
 package it.bibliotecaweb.test;
-
-import java.time.DayOfWeek;
+ 
 import java.time.LocalDate;
 
 import it.bibliotecaweb.entitymanager.EntityManagerUtil;
@@ -67,6 +66,11 @@ public class BibliotecaTest {
 			
 //			CERCA UTENTE DA USERNAME E PASSWORD
 //			System.out.println(utenteService.findUtenteByUsernamePassword("francy", "goal"));
+			
+//			PASSA UTENTE A INATTIVO
+//			Utente u = utenteService.findById(2);
+//			utenteService.passaAInattivo(u);
+//			System.out.println(u.getStato());
 			
 		} catch (Exception e) {
 			e.printStackTrace();

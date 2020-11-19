@@ -126,6 +126,7 @@ public class Utente {
 		result = prime * result + ((cognome == null) ? 0 : cognome.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
+//		result = prime * result + ((ruoli == null) ? 0 : ruoli.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
@@ -154,6 +155,11 @@ public class Utente {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
+//		if (ruoli == null) {
+//			if (other.ruoli != null)
+//				return false;
+//		} else if (!ruoli.equals(other.ruoli))
+//			return false;
 		if (username == null) {
 			if (other.username != null)
 				return false;
@@ -161,5 +167,7 @@ public class Utente {
 			return false;
 		return true;
 	}
+
+	
 
 }

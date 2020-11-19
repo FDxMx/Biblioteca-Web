@@ -23,7 +23,11 @@
 		    <div class='card-header'>
 		        <h5>Ricerca utente</h5> 
 		        
+		        <c:forEach var="ruolo" items="${sessionScope.utenteSession.ruoli}">
+          		<c:if test="${ruolo.codice == 'ADMIN'}">
 		        <a class="btn btn-primary " href="PrepareInsertUtenteServlet">Add New Utente</a>
+		        </c:if>
+       	 		</c:forEach>
 		        
 		    </div>
 		    <div class='card-body'>

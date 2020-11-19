@@ -8,7 +8,7 @@
 <html lang="it">
 <head>
 	<jsp:include page="./header.jsp" />
-	<title>Search Libro</title>
+	<title>Aggiorna Libro</title>
 	
 	<!-- style per le pagine diverse dalla index -->
     <link href="./assets/css/global.css" rel="stylesheet">
@@ -21,34 +21,37 @@
 		
 		<div class='card'>
 		    <div class='card-header'>
-		        <h5>Ricerca libro</h5> 
-		        
-		        <c:forEach var="ruolo" items="${sessionScope.utenteSession.ruoli}">
-          		<c:if test="${ruolo.codice == 'ADMIN' or ruolo.codice == 'CLASSIC'}">
-		        <a class="btn btn-primary " href="PrepareInsertLibroServlet">Add New Libro</a>
-		        </c:if>
-       	 		</c:forEach>
+		    
+		    	${requestScope.errore}
+		        <h5>Aggiorna libro</h5> 
 		        
 		    </div>
 		    <div class='card-body'>
 
-					<form method="post" action="ExecuteSearchLibroServlet" novalidate="novalidate">
+					<form method="post" action="ExecuteUpdateLibroServlet" novalidate="novalidate">
+					
+						<input type="hidden" name="id" id="id" value="${requestScope.libro.id}">
 					
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label>Titolo</label>
-								<input type="text" name="titolo" id="titolo" class="form-control" placeholder="Inserire il titolo">
+								<input type="text" name="titolo" id="titolo" class="form-control" value="${requestScope.libro.titolo}" required>
 							</div>
 							
 							<div class="form-group col-md-6">
 								<label>Genere</label>
-								<input type="text" name="genere" id="genere" class="form-control" placeholder="Inserire il genere">
+								<input type="text" name="genere" id="genere" class="form-control" value="${requestScope.libro.genere}" required>
+							</div>
+							
+							<div class="form-group col-md-6">
+								<label>Trama</label>
+								<input type="text" name="trama" id="trama" class="form-control" value="${requestScope.libro.trama}" required>
 							</div>
 							
 							  <div class="form-group col-md-6">
 								<label>Autore</label>
-								<select id = "autore" name = "autore" class = "form-control" >
-								<option value = ""> Seleziona autore </option>
+								<select id = "autore" name = "autore" class = "form-control" required>
+								<option value = "${requestScope.libro.autore.id}">${requestScope.libro.autore.nome} ${requestScope.libro.autore.cognome}</option>
 								<c:forEach items = "${requestScope.listaAutori}" var = "autore">
 								<option value ="${autore.id}"/>
 								<c:out value = "${autore.nome} ${autore.cognome}" />
@@ -57,7 +60,7 @@
 							</div> 
 						</div>
 							
-						<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Cerca</button>
+						<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Aggiorna</button>
 					</form>
 			<!-- end card-body -->			   
 		    </div>

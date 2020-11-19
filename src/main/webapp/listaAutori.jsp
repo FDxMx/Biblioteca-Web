@@ -23,6 +23,9 @@
 	<main role="main" class="container">
 		<div class='card'>
 			<div class='card-header'>
+				
+				${requestScope.errore}
+				${requestScope.effettuato}
 				<h5>Lista autori</h5>
 			</div>
 			<div class='card-body'>
@@ -54,19 +57,19 @@
 									<td><c:out value="${autore.dataNascita}" /></td>
 									<td>
 										<a class="btn  btn-sm btn-outline-secondary"
-										href="ShowArticoloServlet?idParametro=${autore.id}">Visualizza</a>
+										href="DettagliAutoreServlet?idParametro=${autore.id}">Dettagli</a>
 										
 										<c:forEach var="ruolo" items="${sessionScope.utenteSession.ruoli}">
           								<c:if test="${ruolo.codice == 'ADMIN' or ruolo.codice == 'CLASSIC'}">
 										<a class="btn  btn-sm btn-outline-primary ml-2 mr-2"
-										href="PrepareUpdateArticoloServlet?idParametro=${autore.id}">Edit</a>
+										href="PrepareUpdateAutoreServlet?idParametro=${autore.id}">Edit</a>
 										</c:if>
        	 								</c:forEach>
        	 								
        	 								<c:forEach var="ruolo" items="${sessionScope.utenteSession.ruoli}">
           								<c:if test="${ruolo.codice == 'ADMIN' or ruolo.codice == 'CLASSIC'}">
 										<a class="btn btn-outline-danger btn-sm"
-										href="DeleteArticoliServlet?idParametro=${autore.id}">Delete</a>
+										href="DeleteAutoreServlet?idParametro=${autore.id}">Delete</a>
 										</c:if>
        	 								</c:forEach>
        	 								

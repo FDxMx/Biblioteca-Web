@@ -23,6 +23,8 @@
 	<main role="main" class="container">
 		<div class='card'>
 			<div class='card-header'>
+				${requestScope.errore}
+				${requestScope.effettuato}
 				<h5>Lista utenti</h5>
 			</div>
 			<div class='card-body'>
@@ -42,7 +44,6 @@
 								<th>Cognome</th>
 								<th>Username</th>
 								<th>Stato</th>
-								<th>Ruoli</th>
 								<th>Azioni</th>
 							</tr>
 						</thead>
@@ -55,24 +56,21 @@
 									<td><c:out value="${utente.cognome}" /></td>
 									<td><c:out value="${utente.username}" /></td>
 									<td><c:out value="${utente.stato}" /></td>
-									<c:forEach var="ruolo" items="${utente.ruoli}">
-										<td><c:out value="${ruolo.codice}" /></td>
-									</c:forEach>
 									<td>
 										<a class="btn  btn-sm btn-outline-secondary"
-										href="ShowArticoloServlet?idParametro=${utente.id}">Visualizza</a>
+										href="DettagliUtenteServlet?idParametro=${utente.id}">Dettagli</a>
 										
 										<c:forEach var="ruolo" items="${sessionScope.utenteSession.ruoli}">
           								<c:if test="${ruolo.codice == 'ADMIN'}">
 										<a class="btn  btn-sm btn-outline-primary ml-2 mr-2"
-										href="PrepareUpdateArticoloServlet?idParametro=${utente.id}">Edit</a>
+										href="PrepareUpdateUtenteServlet?idParametro=${utente.id}">Edit</a>
 										</c:if>
        	 								</c:forEach>
 										
 										<c:forEach var="ruolo" items="${sessionScope.utenteSession.ruoli}">
           								<c:if test="${ruolo.codice == 'ADMIN'}">
 										<a class="btn btn-outline-danger btn-sm"
-										href="DeleteArticoliServlet?idParametro=${utente.id}">Delete</a>
+										href="DisattivaUtenteServlet?idParametro=${utente.id}">Disattiva</a>
 										</c:if>
        	 								</c:forEach>
 									

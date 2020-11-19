@@ -15,14 +15,32 @@ public class LibroServiceImpl implements LibroService {
 	@Override
 	public Set<Libro> list() throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
-		libroDAO.setEntityManager(entityManager);
+		try {
+			entityManager.getTransaction().begin();
+			libroDAO.setEntityManager(entityManager);
+			libroDAO.list();
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		}
 		return libroDAO.list();
 	}
 
 	@Override
 	public Libro findById(int id) throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
-		libroDAO.setEntityManager(entityManager);
+		try {
+			entityManager.getTransaction().begin();
+			libroDAO.setEntityManager(entityManager);
+			libroDAO.findById(id);
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		}
 		return libroDAO.findById(id);
 	}
 
@@ -66,7 +84,6 @@ public class LibroServiceImpl implements LibroService {
 
 	@Override
 	public void delete(Libro input) throws Exception {
-		if(input.getAutore().getLibri().size() > 1) {
 			EntityManager entityManager = EntityManagerUtil.getEntityManager();
 			try {
 				entityManager.getTransaction().begin();
@@ -79,8 +96,6 @@ public class LibroServiceImpl implements LibroService {
 				throw e;
 			}
 			return;
-		}
-		System.out.println("Non puoi eliminare l'ultimo libro");
 	}
 
 	@Override

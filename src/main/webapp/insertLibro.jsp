@@ -21,7 +21,7 @@
 		
 		<div class='card'>
 		    <div class='card-header'>
-		    	"${requestScope.errore}"
+		    	${requestScope.errore}
 		        <h5>Inserisci libro</h5> 
 		        
 		    </div>
