@@ -17,5 +17,7 @@ public interface IBaseDAO<T> {
 	public void delete(T input) throws Exception;
 
 	public void setEntityManager(EntityManager entityManager);
+	
+	public Set<T> findByExample(T input);
 
 }

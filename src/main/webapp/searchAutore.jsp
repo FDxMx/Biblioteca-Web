@@ -1,9 +1,5 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 
-<c:if test= "${sessionScope.utenteSession == null || sessionScope.utenteSession.stato == 'INATTIVO'}"  >
-		<c:redirect url = "index.jsp"/>
-</c:if>
-
 <!doctype html>
 <html lang="it">
 <head>
@@ -50,7 +46,7 @@
 								<input type="date" class="form-control" name="data" id="data" placeholder="Inserire la data di nascita">
 							</div>
 							
-							  <div class="form-group col-md-6">
+							<div class="form-group col-md-6">
 								<label>Libro</label>
 								<select id = "libro" name = "libro" class = "form-control" >
 								<option value = ""> Seleziona libro </option>
@@ -59,7 +55,7 @@
 								<c:out value = "${libro.titolo}" />
 								</c:forEach>
 								</select>
-							</div> 
+							</div>  
 						</div>
 							
 						<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Cerca</button>

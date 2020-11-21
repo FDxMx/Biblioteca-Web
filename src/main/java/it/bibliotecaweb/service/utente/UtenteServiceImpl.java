@@ -84,8 +84,18 @@ public class UtenteServiceImpl implements UtenteService {
 
 	@Override
 	public void delete(Utente input) throws Exception {
-		// TODO Auto-generated method stub
-
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		try {
+			entityManager.getTransaction().begin();
+			utenteDAO.setEntityManager(entityManager);
+			utenteDAO.delete(input);
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		}
+		return;
 	}
 
 	@Override
@@ -133,6 +143,22 @@ public class UtenteServiceImpl implements UtenteService {
 			utente = utenteDAO.findUtenteByUsernamePassword(username, password);
 		}
 		return utente;
+	}
+
+	@Override
+	public Set<Utente> findByExample(Utente input) {
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		try {
+			entityManager.getTransaction().begin();
+			utenteDAO.setEntityManager(entityManager);
+			utenteDAO.findByExample(input);
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		}
+		return utenteDAO.findByExample(input);
 	}
 
 }

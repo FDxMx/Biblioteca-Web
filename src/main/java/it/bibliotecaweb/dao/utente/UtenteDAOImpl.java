@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
+import it.bibliotecaweb.model.Ruolo;
 import it.bibliotecaweb.model.StatoUtente;
 import it.bibliotecaweb.model.Utente;
 
@@ -36,7 +37,7 @@ public class UtenteDAOImpl implements UtenteDAO {
 
 	@Override
 	public void delete(Utente input) throws Exception {
-		// TODO Auto-generated method stub
+		entityManager.remove(entityManager.merge(input));
 
 	}
 
@@ -66,6 +67,48 @@ public class UtenteDAOImpl implements UtenteDAO {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public Set<Utente> findByExample(Utente input) {
+		String query = "select u from Utente u left join fetch u.ruoli r where 1=1 ";
+		
+		if(input.getNome() != null && !input.getNome().equals("")) {
+			query += " and u.nome like :nome";
+		}
+		if(input.getCognome() != null && !input.getCognome().equals("")) {
+			query += " and u.cognome like :cognome";
+		}
+		if(input.getUsername() != null && !input.getUsername().equals("")) {
+			query += " and u.username like :username";
+		}
+		if(input.getStato() != null) {
+			query += " and u.stato = :stato";
+		}
+		if(input.getRuoli().size() > 0) {
+			query += " and r.id = :ruolo";
+		}
+		TypedQuery<Utente> newquery = entityManager.createQuery(query, Utente.class);
+		
+		if(input.getNome() != null && !input.getNome().equals("")) {
+			newquery.setParameter("nome", "%" + input.getNome() + "%");
+		}
+		if(input.getCognome() != null && !input.getCognome().equals("")) {
+			newquery.setParameter("cognome", "%" + input.getCognome() + "%");
+		}
+		if(input.getUsername() != null && !input.getUsername().equals("")) {
+			newquery.setParameter("username", "%" + input.getUsername() + "%");
+		}
+		if(input.getStato() != null) {
+			newquery.setParameter("stato", input.getStato());
+		}
+		if(input.getRuoli().size() > 0) {
+			for (Ruolo ruolo : input.getRuoli()) {
+				if(ruolo != null) 
+					newquery.setParameter("ruolo", ruolo.getId());
+			}
+		}
+		return newquery.getResultList().stream().collect(Collectors.toSet());
 	}
 
 }

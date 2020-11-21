@@ -10,14 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class DisattivaUtenteServlet
  */
-@WebServlet("/DisattivaUtenteServlet")
-public class DisattivaUtenteServlet extends HttpServlet {
+@WebServlet("/PrepareDeleteUtenteServlet")
+public class PrepareDeleteUtenteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DisattivaUtenteServlet() {
+    public PrepareDeleteUtenteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,7 +30,7 @@ public class DisattivaUtenteServlet extends HttpServlet {
 		String id = request.getParameter("idParametro");
 		if(id != null && !id.equals("")) {
 			request.setAttribute("id", id);
-			request.getRequestDispatcher("disattivaUtente.jsp").forward(request, response);
+			request.getRequestDispatcher("deleteUtente.jsp").forward(request, response);
 		}else {
 			request.setAttribute("errore", "Nessun utente selezionato!");
 			request.getRequestDispatcher("ListaUtentiServlet").forward(request, response);

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import it.bibliotecaweb.model.Ruolo;
+import it.bibliotecaweb.model.StatoUtente;
 import it.bibliotecaweb.model.Utente;
 import it.bibliotecaweb.service.MyServiceFactory;
 
@@ -67,6 +68,7 @@ public class ExecuteInsertUtenteServlet extends HttpServlet {
 						ruoli.add(ruolo);
 					}
 					Utente utente = new Utente(nome, cognome, username, password, ruoli);
+					utente.setStato(StatoUtente.ATTIVO);
 					MyServiceFactory.getUtenteServiceInstance().insert(utente);
 					request.setAttribute("effettuato", "Operazione effettuata con successo!");
 					request.getRequestDispatcher("ListaUtentiServlet").forward(request, response);

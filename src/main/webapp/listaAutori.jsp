@@ -1,9 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<c:if test="${sessionScope.utenteSession == null || sessionScope.utenteSession.stato == 'INATTIVO'}">
-	<c:redirect url="index.jsp" />
-</c:if>
-
 <%@page import="it.bibliotecaweb.model.Autore"%>
 <%@page import="java.util.List"%>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>

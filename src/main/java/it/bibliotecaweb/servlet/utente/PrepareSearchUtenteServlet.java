@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import it.bibliotecaweb.model.StatoUtente;
 import it.bibliotecaweb.service.MyServiceFactory;
 
 /**
@@ -30,6 +31,7 @@ public class PrepareSearchUtenteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
+			request.setAttribute("listaStati", StatoUtente.listaEnum());
 			request.setAttribute("listaRuoli", MyServiceFactory.getRuoloServiceInstance().list());
 		} catch (Exception e) {
 			e.printStackTrace();

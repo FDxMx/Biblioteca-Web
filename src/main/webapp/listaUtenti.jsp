@@ -1,9 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<c:if test="${sessionScope.utenteSession == null || sessionScope.utenteSession.stato == 'INATTIVO'}">
-	<c:redirect url="index.jsp" />
-</c:if>
-
 <%@page import="it.bibliotecaweb.model.Autore"%>
 <%@page import="java.util.List"%>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
@@ -57,9 +53,13 @@
 									<td><c:out value="${utente.username}" /></td>
 									<td><c:out value="${utente.stato}" /></td>
 									<td>
+										<c:forEach var="ruolo" items="${sessionScope.utenteSession.ruoli}">
+          								<c:if test="${ruolo.codice == 'ADMIN'}">
 										<a class="btn  btn-sm btn-outline-secondary"
 										href="DettagliUtenteServlet?idParametro=${utente.id}">Dettagli</a>
-										
+										</c:if>
+       	 								</c:forEach>
+       	 								
 										<c:forEach var="ruolo" items="${sessionScope.utenteSession.ruoli}">
           								<c:if test="${ruolo.codice == 'ADMIN'}">
 										<a class="btn  btn-sm btn-outline-primary ml-2 mr-2"
@@ -70,7 +70,7 @@
 										<c:forEach var="ruolo" items="${sessionScope.utenteSession.ruoli}">
           								<c:if test="${ruolo.codice == 'ADMIN'}">
 										<a class="btn btn-outline-danger btn-sm"
-										href="DisattivaUtenteServlet?idParametro=${utente.id}">Disattiva</a>
+										href="PrepareDeleteUtenteServlet?idParametro=${utente.id}">Elimina</a>
 										</c:if>
        	 								</c:forEach>
 									

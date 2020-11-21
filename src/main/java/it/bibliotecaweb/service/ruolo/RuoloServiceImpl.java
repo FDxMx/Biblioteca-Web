@@ -102,4 +102,10 @@ public class RuoloServiceImpl implements RuoloService {
 		this.ruoloDAO = ruoloDAO;
 	}
 
+	@Override
+	public Set<Ruolo> findByExample(Ruolo input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -41,4 +41,10 @@ public class RuoloDAOImpl implements RuoloDAO {
 		this.entityManager = entityManager;
 	}
 
+	@Override
+	public Set<Ruolo> findByExample(Ruolo input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

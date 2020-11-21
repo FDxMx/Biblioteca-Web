@@ -49,12 +49,11 @@ public class LogInServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 
-		Utente utente = new Utente();
 		try {
-			utente = service.findUtenteByUsernamePassword(username, password);
-			if (utente == null || username.equals("") || password.equals("") || username == null || password == null) {
+			if (username.equals("") || password.equals("") || username == null || password == null) {
 				response.sendRedirect(request.getContextPath());
 			} else {
+				Utente utente = service.findUtenteByUsernamePassword(username, password);
 				session.setAttribute("utenteSession", utente);
 				request.getRequestDispatcher("home.jsp").forward(request, response);
 			}

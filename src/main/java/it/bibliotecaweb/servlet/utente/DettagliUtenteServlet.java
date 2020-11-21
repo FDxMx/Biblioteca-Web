@@ -36,11 +36,13 @@ public class DettagliUtenteServlet extends HttpServlet {
 			try {
 				Utente utente = MyServiceFactory.getUtenteServiceInstance().findById(Integer.parseInt(id));
 				request.setAttribute("utente", utente);
+				request.getRequestDispatcher("dettagliUtente.jsp").forward(request, response);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			request.getRequestDispatcher("dettagliUtente.jsp").forward(request, response);
+		} else {
+			request.setAttribute("errore", "Nessun utente selezionato!");
+			request.getRequestDispatcher("ListaUtentiServlet").forward(request, response);
 		}
 	}
 

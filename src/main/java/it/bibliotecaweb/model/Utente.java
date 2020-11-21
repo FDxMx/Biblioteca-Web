@@ -35,7 +35,7 @@ public class Utente {
 	@JoinTable(name = "utente_ruolo", joinColumns = @JoinColumn(name = "utente_fk", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "ruolo_fk", referencedColumnName = "id"))
 	private Set<Ruolo> ruoli = new HashSet<>();
 	@Enumerated(EnumType.STRING)
-	private StatoUtente stato = StatoUtente.ATTIVO;
+	private StatoUtente stato;
 
 	public Utente() {
 	}
@@ -54,6 +54,23 @@ public class Utente {
 		this.cognome = cognome;
 		this.username = username;
 		this.password = password;
+		this.ruoli = ruoli;
+	}
+	
+	public Utente(String nome, String cognome, String username, StatoUtente stato, Set<Ruolo> ruoli) {
+		super();
+		this.nome = nome;
+		this.cognome = cognome;
+		this.username = username;
+		this.ruoli = ruoli;
+		this.stato = stato;
+	}
+	
+	public Utente(String nome, String cognome, String username, Set<Ruolo> ruoli) {
+		super();
+		this.nome = nome;
+		this.cognome = cognome;
+		this.username = username;
 		this.ruoli = ruoli;
 	}
 
@@ -126,7 +143,8 @@ public class Utente {
 		result = prime * result + ((cognome == null) ? 0 : cognome.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
-//		result = prime * result + ((ruoli == null) ? 0 : ruoli.hashCode());
+		result = prime * result + ((ruoli == null) ? 0 : ruoli.hashCode());
+		result = prime * result + ((stato == null) ? 0 : stato.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
@@ -155,11 +173,13 @@ public class Utente {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
-//		if (ruoli == null) {
-//			if (other.ruoli != null)
-//				return false;
-//		} else if (!ruoli.equals(other.ruoli))
-//			return false;
+		if (ruoli == null) {
+			if (other.ruoli != null)
+				return false;
+		} else if (!ruoli.equals(other.ruoli))
+			return false;
+		if (stato != other.stato)
+			return false;
 		if (username == null) {
 			if (other.username != null)
 				return false;
@@ -168,6 +188,5 @@ public class Utente {
 		return true;
 	}
 
-	
-
+    
 }

@@ -36,10 +36,14 @@ public class DettagliAutoreServlet extends HttpServlet {
 			try {
 				Autore autore = MyServiceFactory.getAutoreServiceInstance().findById(Integer.parseInt(id));
 				request.setAttribute("autore", autore);
+				request.getRequestDispatcher("dettagliAutore.jsp").forward(request, response);
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			request.getRequestDispatcher("dettagliAutore.jsp").forward(request, response);
+		} else {
+			request.setAttribute("errore", "Nessun autore selezionato!");
+			request.getRequestDispatcher("ListaAutoriServlet").forward(request, response);
 		}
 	}
 

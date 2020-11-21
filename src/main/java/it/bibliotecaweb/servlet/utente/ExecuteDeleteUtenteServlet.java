@@ -14,14 +14,14 @@ import it.bibliotecaweb.service.MyServiceFactory;
 /**
  * Servlet implementation class ConfermaDisattivazioneUtenteServlet
  */
-@WebServlet("/ConfermaDisattivazioneUtenteServlet")
-public class ConfermaDisattivazioneUtenteServlet extends HttpServlet {
+@WebServlet("/ExecuteDeleteUtenteServlet")
+public class ExecuteDeleteUtenteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ConfermaDisattivazioneUtenteServlet() {
+    public ExecuteDeleteUtenteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,8 +36,8 @@ public class ConfermaDisattivazioneUtenteServlet extends HttpServlet {
 		if (id != null && !id.equals("")) {
 				try {
 					Utente utente = MyServiceFactory.getUtenteServiceInstance().findById(Integer.parseInt(id));
-					MyServiceFactory.getUtenteServiceInstance().passaAInattivo(utente);;
-					request.setAttribute("effettuato", "Utente disattivato!");
+					MyServiceFactory.getUtenteServiceInstance().delete(utente);;
+					request.setAttribute("effettuato", "Utente eliminato!");
 					request.getRequestDispatcher("ListaUtentiServlet").forward(request, response);
 				} catch (Exception e) {
 					e.printStackTrace();

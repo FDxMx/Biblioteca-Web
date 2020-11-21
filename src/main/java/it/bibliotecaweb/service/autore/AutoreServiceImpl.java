@@ -106,4 +106,20 @@ public class AutoreServiceImpl implements AutoreService {
 		this.autoreDAO = autoreDAO;
 	}
 
+	@Override
+	public Set<Autore> findByExample(Autore input) {
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		try {
+			entityManager.getTransaction().begin();
+			autoreDAO.setEntityManager(entityManager);
+			autoreDAO.findByExample(input);
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		}
+		return autoreDAO.findByExample(input);
+	}
+
 }

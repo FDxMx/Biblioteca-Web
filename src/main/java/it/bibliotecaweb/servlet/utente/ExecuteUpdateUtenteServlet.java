@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import it.bibliotecaweb.model.Ruolo;
+import it.bibliotecaweb.model.StatoUtente;
 import it.bibliotecaweb.model.Utente;
 import it.bibliotecaweb.service.MyServiceFactory;
 
@@ -50,19 +51,25 @@ public class ExecuteUpdateUtenteServlet extends HttpServlet {
 		String nome = request.getParameter("nome");
 		String cognome = request.getParameter("cognome");
 		String username = request.getParameter("username");
-		String password = request.getParameter("password");
+		String stato = request.getParameter("stato");
 		String[] idRuolo = request.getParameterValues("idRuolo");
 
 		if (id != null && !id.equals("") && nome != null && !nome.equals("") && cognome != null && !cognome.equals("") && username != null
-				&& !username.equals("") && password != null && !password.equals("") && idRuolo != null  && idRuolo.length != 0) {
+				&& !username.equals("") && idRuolo != null && stato != null && !stato.equals("") && idRuolo.length != 0) {
 			Set<Ruolo> ruoli = new HashSet<>();
 			try {
-				for (String s : idRuolo) {
-					Ruolo ruolo = MyServiceFactory.getRuoloServiceInstance().findById(Integer.parseInt(s));
-					ruoli.add(ruolo);
+				Utente utente = MyServiceFactory.getUtenteServiceInstance().findById(Integer.parseInt(id));
+				if(utente.getRuoli().size() != idRuolo.length) {
+					for (String s : idRuolo) {
+						Ruolo ruolo = MyServiceFactory.getRuoloServiceInstance().findById(Integer.parseInt(s));
+						ruoli.add(ruolo);
+						utente.setRuoli(ruoli);
+					}
 				}
-				Utente utente = new Utente(nome, cognome, username, password, ruoli);
-				utente.setId(Integer.parseInt(id));
+				utente.setNome(nome);
+				utente.setCognome(cognome);
+				utente.setUsername(username);
+				utente.setStato(StatoUtente.valueOf(stato));
 				for (Utente u : MyServiceFactory.getUtenteServiceInstance().list()) {
 					if(u.equals(utente)) {
 						request.setAttribute("errore", "Attenzione, nessuna modifica effettuata!");

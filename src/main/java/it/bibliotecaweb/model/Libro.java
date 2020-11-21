@@ -44,6 +44,13 @@ public class Libro {
 		this.trama = trama;
 		this.autore = autore;
 	}
+	
+	public Libro(String titolo, String genere, Autore autore) {
+		super();
+		this.titolo = titolo;
+		this.genere = genere;
+		this.autore = autore;
+	}
 
 	public int getId() {
 		return id;

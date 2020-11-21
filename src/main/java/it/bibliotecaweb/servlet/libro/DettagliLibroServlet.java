@@ -36,10 +36,14 @@ public class DettagliLibroServlet extends HttpServlet {
 			try {
 				Libro libro = MyServiceFactory.getLibroServiceInstance().findById(Integer.parseInt(id));
 				request.setAttribute("libro", libro);
+				request.getRequestDispatcher("dettagliLibro.jsp").forward(request, response);
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			request.getRequestDispatcher("dettagliLibro.jsp").forward(request, response);
+		} else {
+			request.setAttribute("errore", "Nessun libro selezionato!");
+			request.getRequestDispatcher("ListaLibriServlet").forward(request, response);
 		}
 	}
 

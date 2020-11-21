@@ -47,9 +47,11 @@ public class ExecuteUpdateAutoreServlet extends HttpServlet {
 		
 		if(id != null && !id.equals("")  && nome != null && !nome.equals("") && cognome != null && !cognome.equals("") && stringData != null && !stringData.equals("")) {
 			LocalDate data = LocalDate.parse(stringData);
-			Autore autore = new Autore(nome, cognome, data);
-			autore.setId(Integer.parseInt(id));
 			try {
+				Autore autore = MyServiceFactory.getAutoreServiceInstance().findById(Integer.parseInt(id));
+				autore.setNome(nome);
+				autore.setCognome(cognome);
+				autore.setDataNascita(data);
 				if(MyServiceFactory.getAutoreServiceInstance().list().contains(autore)) {
 					request.setAttribute("errore", "Attenzione, nessuna modifica effettuata!");
 					request.setAttribute("idParametro", id);

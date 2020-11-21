@@ -103,4 +103,20 @@ public class LibroServiceImpl implements LibroService {
 		this.libroDAO = libroDAO;
 	}
 
+	@Override
+	public Set<Libro> findByExample(Libro input) {
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		try {
+			entityManager.getTransaction().begin();
+			libroDAO.setEntityManager(entityManager);
+			libroDAO.findByExample(input);
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		}
+		return libroDAO.findByExample(input);
+	}
+
 }

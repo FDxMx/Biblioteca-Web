@@ -17,7 +17,12 @@
           <a class="dropdown-item" href="home.jsp">Home</a>
           <a class="dropdown-item" href="ListaAutoriServlet">Lista autori</a>
           <a class="dropdown-item" href="ListaLibriServlet">Lista libri</a>
+          
+          <c:forEach var="ruolo" items="${sessionScope.utenteSession.ruoli}">
+          <c:if test="${ruolo.codice == 'ADMIN'}">
           <a class="dropdown-item" href="ListaUtentiServlet">Lista utenti</a>
+          </c:if>
+       	  </c:forEach>
           
           <c:forEach var="ruolo" items="${sessionScope.utenteSession.ruoli}">
           <c:if test="${ruolo.codice == 'ADMIN' or ruolo.codice == 'CLASSIC'}">
@@ -50,9 +55,14 @@
       &nbsp;
       &nbsp;
       <button class="btn btn-success my-2 my-sm-0" type="submit" formaction = "PrepareSearchLibroServlet" formmethod = "get">Search Libro</button>
+      
+      <c:forEach var="ruolo" items="${sessionScope.utenteSession.ruoli}">
+      <c:if test="${ruolo.codice == 'ADMIN'}">
       &nbsp;
       &nbsp;
       <button class="btn btn-success my-2 my-sm-0" type="submit" formaction = "PrepareSearchUtenteServlet" formmethod = "get">Search Utente</button>
+      </c:if>
+      </c:forEach>
     </form>
   </div>
 </nav>

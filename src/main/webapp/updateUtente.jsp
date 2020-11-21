@@ -1,9 +1,5 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 
-<c:if test= "${sessionScope.utenteSession == null || sessionScope.utenteSession.stato == 'INATTIVO'}"  >
-		<c:redirect url = "index.jsp"/>
-</c:if>
-
 <!doctype html>
 <html lang="it">
 <head>
@@ -49,8 +45,14 @@
 							</div>
 							
 							<div class="form-group col-md-3">
-								<label>Password</label>
-								<input type="text" class="form-control" name="password" id="password" value="${requestScope.utente.password}" required>
+								<label>Stato</label>
+								<select id = "stato" name = "stato" class = "form-control" >
+									<option value = "${sessionScope.utenteSession.stato}"> Seleziona stato </option>
+									<c:forEach items = "${requestScope.listaStati}" var = "stato">
+										<option value ="${stato}"/>
+											<c:out value = "${stato}" />
+									</c:forEach>
+								</select>
 							</div>
 							
 						    <div class="form-group col md-4">

@@ -13,5 +13,7 @@ public interface IBaseService<E> {
 	public void insert(E input) throws Exception;
 
 	public void delete(E input) throws Exception;
+	
+	public Set<E> findByExample(E input);
 
 }

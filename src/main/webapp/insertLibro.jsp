@@ -1,9 +1,5 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 
-<c:if test= "${sessionScope.utenteSession == null || sessionScope.utenteSession.stato == 'INATTIVO'}"  >
-		<c:redirect url = "index.jsp"/>
-</c:if>
-
 <!doctype html>
 <html lang="it">
 <head>

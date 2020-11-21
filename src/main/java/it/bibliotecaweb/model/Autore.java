@@ -38,6 +38,14 @@ public class Autore {
 		this.cognome = cognome;
 		this.dataNascita = dataNascita;
 	}
+	
+	public Autore(String nome, String cognome, LocalDate dataNascita, Set<Libro> libri) {
+		super();
+		this.nome = nome;
+		this.cognome = cognome;
+		this.dataNascita = dataNascita;
+		this.libri = libri;
+	}
 
 	public int getId() {
 		return id;

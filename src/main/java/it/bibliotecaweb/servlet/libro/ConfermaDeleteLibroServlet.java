@@ -43,9 +43,10 @@ public class ConfermaDeleteLibroServlet extends HttpServlet {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+		} else {
+			request.setAttribute("errore", "Nessun libro selezionato!");
+			request.getRequestDispatcher("ListaLibriServlet").forward(request, response);
 		}
-		request.setAttribute("errore", "Nessun libro selezionato!");
-		request.getRequestDispatcher("ListaLibriServlet").forward(request, response);
 	}
 
 	/**

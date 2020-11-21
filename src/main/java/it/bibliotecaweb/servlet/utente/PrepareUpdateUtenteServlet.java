@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import it.bibliotecaweb.model.StatoUtente;
 import it.bibliotecaweb.model.Utente;
 import it.bibliotecaweb.service.MyServiceFactory;
 
@@ -36,6 +37,7 @@ public class PrepareUpdateUtenteServlet extends HttpServlet {
 			try {
 				Utente utente = MyServiceFactory.getUtenteServiceInstance().findById(Integer.parseInt(id));
 				request.setAttribute("utente", utente);
+				request.setAttribute("listaStati", StatoUtente.listaEnum());
 				request.setAttribute("listaRuoli", MyServiceFactory.getRuoloServiceInstance().list());
 				request.getRequestDispatcher("updateUtente.jsp").forward(request, response);
 			} catch (Exception e) {
@@ -45,6 +47,7 @@ public class PrepareUpdateUtenteServlet extends HttpServlet {
 			try {
 				Utente utente = MyServiceFactory.getUtenteServiceInstance().findById(Integer.parseInt((String)request.getAttribute("idParametro")));
 				request.setAttribute("utente", utente);
+				request.setAttribute("listaStati", StatoUtente.listaEnum());
 				request.setAttribute("listaRuoli", MyServiceFactory.getRuoloServiceInstance().list());
 				request.setAttribute("errore", request.getAttribute("errore"));
 				request.getRequestDispatcher("updateUtente.jsp").forward(request, response);

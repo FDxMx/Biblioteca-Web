@@ -48,8 +48,11 @@ public class ExecuteUpdateLibroServlet extends HttpServlet {
 		if(id != null && !id.equals("") && titolo != null && !titolo.equals("") && genere != null && !genere.equals("") && trama != null && !trama.equals("") && idAutore != null && !idAutore.equals("")) {
 			try {
 				Autore autore = MyServiceFactory.getAutoreServiceInstance().findById(Integer.parseInt(idAutore));
-				Libro libro = new Libro(titolo, genere, trama, autore);
-				libro.setId(Integer.parseInt(id));
+				Libro libro = MyServiceFactory.getLibroServiceInstance().findById(Integer.parseInt(id));
+				libro.setTitolo(titolo);
+				libro.setGenere(genere);
+				libro.setTrama(trama);
+				libro.setAutore(autore);
 				for (Libro l : MyServiceFactory.getLibroServiceInstance().list()) {
 					if(l.equals(libro)) {
 						request.setAttribute("errore", "Attenzione, nessuna modifica effettuata!");
