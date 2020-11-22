@@ -18,46 +18,63 @@ import it.bibliotecaweb.service.MyServiceFactory;
 @WebServlet("/InsertAutoreServlet")
 public class InsertAutoreServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public InsertAutoreServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public InsertAutoreServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		String nome = request.getParameter("nome");
 		String cognome = request.getParameter("cognome");
 		String stringData = request.getParameter("data");
-		
-		if(nome == null || cognome == null || stringData == null || nome.equals("") || cognome.equals("") || stringData.equals("")) {
-			request.setAttribute("errore", "Attenzione, inserire tutti i campi!");
-			request.getRequestDispatcher("insertAutore.jsp").forward(request, response);
-		}
-		LocalDate data = LocalDate.parse(stringData);
-		Autore autore = new Autore(nome, cognome, data);
+
 		try {
-			MyServiceFactory.getAutoreServiceInstance().insert(autore);
-			request.setAttribute("effettuato", "Operazione effettuata con successo!");
-			request.setAttribute("listaAutori", MyServiceFactory.getAutoreServiceInstance().list());
+			if (nome == null || cognome == null || stringData == null || nome.equals("") || cognome.equals("")
+					|| stringData.equals("")) {
+				request.setAttribute("nome", nome);
+				request.setAttribute("cognome", cognome);
+				request.setAttribute("stringData", stringData);
+				request.setAttribute("errore", MyServiceFactory.getAutoreServiceInstance().validate(request));
+				request.getRequestDispatcher("insertAutore.jsp").forward(request, response);
+			} else {
+				LocalDate data = LocalDate.parse(stringData);
+				Autore autore = new Autore(nome, cognome, data);
+				if(MyServiceFactory.getAutoreServiceInstance().list().contains(autore)) {
+					request.setAttribute("nome", nome);
+					request.setAttribute("cognome", cognome);
+					request.setAttribute("stringData", stringData);
+					request.setAttribute("errore", "Attenzione autore già esistente!");
+					request.getRequestDispatcher("insertAutore.jsp").forward(request, response);
+				} else {
+					MyServiceFactory.getAutoreServiceInstance().insert(autore);
+					request.setAttribute("effettuato", "Operazione effettuata con successo!");
+					request.setAttribute("listaAutori", MyServiceFactory.getAutoreServiceInstance().list());
+					request.getRequestDispatcher("listaAutori.jsp").forward(request, response);
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		request.getRequestDispatcher("listaAutori.jsp").forward(request, response);
 	}
 
 }

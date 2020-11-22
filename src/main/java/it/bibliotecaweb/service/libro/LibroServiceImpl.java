@@ -1,8 +1,11 @@
 package it.bibliotecaweb.service.libro;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletRequest;
 
 import it.bibliotecaweb.dao.libro.LibroDAO;
 import it.bibliotecaweb.entitymanager.EntityManagerUtil;
@@ -117,6 +120,37 @@ public class LibroServiceImpl implements LibroService {
 			throw e;
 		}
 		return libroDAO.findByExample(input);
+	}
+
+	@Override
+	public List<String> validate(HttpServletRequest req) {
+
+		List<String> errori = new ArrayList<>();
+
+		String titolo = req.getParameter("titolo");
+		if (titolo == null || titolo.equals("")) {
+			String erroreTitolo = "Titolo è un campo obbligatorio!";
+			errori.add(erroreTitolo);
+		}
+
+		String genere = req.getParameter("genere");
+		if (genere == null || genere.equals("")) {
+			String erroreGenere = "Genere è un campo obbligatorio!";
+			errori.add(erroreGenere);
+		}
+
+		String trama = req.getParameter("trama");
+		if (trama == null || trama.equals("")) {
+			String erroreTrama = "Trama di nascita è un campo obbligatorio!";
+			errori.add(erroreTrama);
+		}
+		
+		String autore = req.getParameter("autore");
+		if (autore == null || autore.equals("")) {
+			String erroreAutore = "Autore è un campo obbligatorio!";
+			errori.add(erroreAutore);
+		}
+		return errori;
 	}
 
 }

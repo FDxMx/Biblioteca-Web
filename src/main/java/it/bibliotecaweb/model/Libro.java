@@ -102,7 +102,6 @@ public class Libro {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((autore == null) ? 0 : autore.hashCode());
 		result = prime * result + ((genere == null) ? 0 : genere.hashCode());
 		result = prime * result + ((titolo == null) ? 0 : titolo.hashCode());
 		result = prime * result + ((trama == null) ? 0 : trama.hashCode());
@@ -118,11 +117,6 @@ public class Libro {
 		if (getClass() != obj.getClass())
 			return false;
 		Libro other = (Libro) obj;
-		if (autore == null) {
-			if (other.autore != null)
-				return false;
-		} else if (!autore.equals(other.autore))
-			return false;
 		if (genere == null) {
 			if (other.genere != null)
 				return false;

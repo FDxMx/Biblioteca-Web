@@ -17,7 +17,12 @@
 		
 		<div class='card'>
 		    <div class='card-header'>
-		        ${requestScope.errore}
+		    
+		        
+		        <c:forEach items = "${requestScope.errore}" var = "errore">
+		        	<p style = color:red ><c:out value = "${errore}"></c:out> <br></p>
+		        </c:forEach>
+		        
 		        <h5>Inserisci autore</h5> 
 		        
 		    </div>
@@ -28,17 +33,17 @@
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label>Nome</label>
-								<input type="text" name="nome" id="nome" class="form-control" placeholder="Inserire il nome" required>
+								<input type="text" name="nome" id="nome" class="form-control" placeholder="Inserire il nome" value = "${requestScope.nome}" required>
 							</div>
 							
 							<div class="form-group col-md-6">
 								<label>Cognome</label>
-								<input type="text" name="cognome" id="cognome" class="form-control" placeholder="Inserire il cognome" required>
+								<input type="text" name="cognome" id="cognome" class="form-control" placeholder="Inserire il cognome" value = "${requestScope.cognome}" required>
 							</div>
 						
 							<div class="form-group col-md-3">
 								<label>Data di nascita</label>
-								<input type="date" class="form-control" name="data" id="data" placeholder="Inserire la data di nascita" required>
+								<input type="date" class="form-control" name="data" id="data" placeholder="Inserire la data di nascita" value = "${requestScope.stringData}" required>
 							</div>
 						</div>
 							

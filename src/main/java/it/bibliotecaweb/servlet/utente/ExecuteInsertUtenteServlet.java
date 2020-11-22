@@ -49,30 +49,60 @@ public class ExecuteInsertUtenteServlet extends HttpServlet {
 		String cognome = request.getParameter("cognome");
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		String[] stringRuolo = request.getParameterValues("ruolo");
+		String[] stringRuolo = request.getParameterValues("idRuolo");
 
-		if (nome == null || cognome == null || username == null || password == null || stringRuolo == null || nome.equals("") || cognome.equals("") || username.equals("") || password.equals("") || stringRuolo.length == 0) {
-			request.setAttribute("errore", "Attenzione, inserire tutti i campi");
-			request.getRequestDispatcher("PrepareInsertUtenteServlet").forward(request, response);
-		}
 		try {
-			for (Utente u : MyServiceFactory.getUtenteServiceInstance().list()) {
-				if(u.getUsername().equals(username)) {
-					request.setAttribute("errore", "Questo username è gia stato utilizzato!");
-					request.getRequestDispatcher("PrepareInsertUtenteServlet").forward(request, response);
-				}else {
-					Set<Ruolo> ruoli = new HashSet<>();
+			if (nome == null || cognome == null || username == null || password == null || stringRuolo == null
+					|| nome.equals("") || cognome.equals("") || username.equals("") || password.equals("")
+					|| stringRuolo.length == 0) {
+				request.setAttribute("nome", nome);
+				request.setAttribute("cognome", cognome);
+				request.setAttribute("username", username);
+				request.setAttribute("password", password);
+				Set<Ruolo> ruoli = new HashSet<>();
+				if (stringRuolo != null && stringRuolo.length > 0) {
 					for (String s : stringRuolo) {
 						int id = Integer.parseInt(s);
 						Ruolo ruolo = MyServiceFactory.getRuoloServiceInstance().findById(id);
 						ruoli.add(ruolo);
 					}
-					Utente utente = new Utente(nome, cognome, username, password, ruoli);
-					utente.setStato(StatoUtente.ATTIVO);
-					MyServiceFactory.getUtenteServiceInstance().insert(utente);
-					request.setAttribute("effettuato", "Operazione effettuata con successo!");
-					request.getRequestDispatcher("ListaUtentiServlet").forward(request, response);
+					request.setAttribute("ruoli", ruoli);
 				}
+				request.setAttribute("errore", MyServiceFactory.getUtenteServiceInstance().validate(request));
+				request.getRequestDispatcher("PrepareInsertUtenteServlet").forward(request, response);
+				return;
+			} else {
+				for (Utente u : MyServiceFactory.getUtenteServiceInstance().list()) {
+					if (u.getUsername().equals(username)) {
+						request.setAttribute("nome", nome);
+						request.setAttribute("cognome", cognome);
+						request.setAttribute("username", username);
+						request.setAttribute("password", password);
+						Set<Ruolo> ruoli = new HashSet<>();
+						if (stringRuolo != null && stringRuolo.length > 0) {
+							for (String s : stringRuolo) {
+								int id = Integer.parseInt(s);
+								Ruolo ruolo = MyServiceFactory.getRuoloServiceInstance().findById(id);
+								ruoli.add(ruolo);
+							}
+							request.setAttribute("ruoli", ruoli);
+						}
+						request.setAttribute("errore", "Questo username è gia stato utilizzato!");
+						request.getRequestDispatcher("PrepareInsertUtenteServlet").forward(request, response);
+						return;
+					}
+				}
+				Set<Ruolo> ruoli = new HashSet<>();
+				for (String s : stringRuolo) {
+					int id = Integer.parseInt(s);
+					Ruolo ruolo = MyServiceFactory.getRuoloServiceInstance().findById(id);
+					ruoli.add(ruolo);
+				}
+				Utente utente = new Utente(nome, cognome, username, password, ruoli);
+				utente.setStato(StatoUtente.ATTIVO);
+				MyServiceFactory.getUtenteServiceInstance().insert(utente);
+				request.setAttribute("effettuato", "Operazione effettuata con successo!");
+				request.getRequestDispatcher("ListaUtentiServlet").forward(request, response);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

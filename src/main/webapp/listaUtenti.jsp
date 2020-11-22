@@ -19,8 +19,8 @@
 	<main role="main" class="container">
 		<div class='card'>
 			<div class='card-header'>
-				${requestScope.errore}
-				${requestScope.effettuato}
+				<p style = color:red >${requestScope.errore}</p>
+				<p style = color:green >${requestScope.effettuato}</p>
 				<h5>Lista utenti</h5>
 			</div>
 			<div class='card-body'>

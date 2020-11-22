@@ -30,6 +30,7 @@ public class PrepareInsertUtenteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			request.setAttribute("listaRuoli", MyServiceFactory.getRuoloServiceInstance().list());
+			request.setAttribute("ruoli", request.getAttribute("ruoli"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

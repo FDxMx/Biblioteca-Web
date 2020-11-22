@@ -18,7 +18,7 @@
 		<div class='card'>
 		    <div class='card-header'>
 		    
-		    	${requestScope.errore}
+		    	<p style = color:red >${requestScope.errore}</p>
 		        <h5>Aggiorna libro</h5> 
 		        
 		    </div>

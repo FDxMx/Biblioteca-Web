@@ -17,7 +17,11 @@
 		
 		<div class='card'>
 		    <div class='card-header'>
-		        ${requestScope.errore}
+		    
+		        <c:forEach items = "${requestScope.errore}" var = "errore">
+		        	<p style = color:red ><c:out value = "${errore}"></c:out> <br></p>
+		        </c:forEach>
+		        
 		        <h5>Inserisci utente</h5> 
 		        
 		    </div>
@@ -28,31 +32,35 @@
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label>Nome</label>
-								<input type="text" name="nome" id="nome" class="form-control" placeholder="Inserire il nome" required>
+								<input type="text" name="nome" id="nome" class="form-control" placeholder="Inserire il nome" value = "${requestScope.nome}" required>
 							</div>
 							
 							<div class="form-group col-md-6">
 								<label>Cognome</label>
-								<input type="text" name="cognome" id="cognome" class="form-control" placeholder="Inserire il cognome" required>
+								<input type="text" name="cognome" id="cognome" class="form-control" placeholder="Inserire il cognome" value = "${requestScope.cognome}" required>
 							</div>
 						
 							<div class="form-group col-md-3">
 								<label>Username</label>
-								<input type="text" class="form-control" name="username" id="username" placeholder="Inserire l'username" required>
+								<input type="text" class="form-control" name="username" id="username" placeholder="Inserire l'username" value = "${requestScope.username}" required>
 							</div>
 							
 							<div class="form-group col-md-3">
 								<label>Password</label>
-								<input type="text" class="form-control" name="password" id="password" placeholder="Inserire la password" required>
+								<input type="text" class="form-control" name="password" id="password" placeholder="Inserire la password" value = "${requestScope.password}" required>
 							</div>
 							
-							<div class="form-group col-md-6">
+							<div class="form-group col md-4">
 								<label>Ruoli</label>
-								<c:forEach items = "${requestScope.listaRuoli}" var = "ruolo"><br>
-									<input type="checkbox" class="form-check form-check-inline" id="ruolo" name="ruolo" value="${ruolo.id}" required>
-									<c:out value = "${ruolo.codice}" />
-								</c:forEach>
-							</div> 
+									<c:forEach items="${requestScope.listaRuoli}" var="ruolo"><br>
+										<input class="form-check form-check-inline" type="checkbox" value="${ruolo.id}" id="idRuolo" name="idRuolo"
+									<c:forEach items="${requestScope.ruoli}" var="ruoloUtente">
+										${ruoloUtente.id eq ruolo.id ? 'checked' : ''}
+									</c:forEach>>
+									<label> ${ruolo.codice} </label>
+									</c:forEach>
+							</div>
+							
 						</div>
 							
 						<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Inserisci</button>

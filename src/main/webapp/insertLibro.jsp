@@ -17,7 +17,11 @@
 		
 		<div class='card'>
 		    <div class='card-header'>
-		    	${requestScope.errore}
+		    
+		    	 <c:forEach items = "${requestScope.errore}" var = "errore">
+		        	<p style = color:red ><c:out value = "${errore}"></c:out> <br></p>
+		        </c:forEach>
+		        
 		        <h5>Inserisci libro</h5> 
 		        
 		    </div>
@@ -28,23 +32,23 @@
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label>Titolo</label>
-								<input type="text" name="titolo" id="titolo" class="form-control" placeholder="Inserire il titolo" required>
+								<input type="text" name="titolo" id="titolo" class="form-control" placeholder="Inserire il titolo" value = "${requestScope.titolo}" required>
 							</div>
 							
 							<div class="form-group col-md-6">
 								<label>Genere</label>
-								<input type="text" name="genere" id="genere" class="form-control" placeholder="Inserire il genere" required>
+								<input type="text" name="genere" id="genere" class="form-control" placeholder="Inserire il genere" value = "${requestScope.genere}" required>
 							</div>
 							
 							<div class="form-group col-md-6">
 								<label>Trama</label>
-								<input type="text" name="trama" id="trama" class="form-control" placeholder="Inserire la trama" required>
+								<input type="text" name="trama" id="trama" class="form-control" placeholder="Inserire la trama" value = "${requestScope.trama}" required>
 							</div>
 							
 							  <div class="form-group col-md-6">
 								<label>Autore</label>
 								<select id = "autore" name = "autore" class = "form-control" required>
-								<option value = ""> Seleziona autore </option>
+								<option value = "${requestScope.autore.id}"> ${requestScope.autore.nome} ${requestScope.autore.cognome}</option>
 								<c:forEach items = "${requestScope.listaAutori}" var = "autore">
 								<option value ="${autore.id}"/>
 								<c:out value = "${autore.nome} ${autore.cognome}" />

@@ -1,12 +1,15 @@
 package it.bibliotecaweb.service.autore;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletRequest;
 
 import it.bibliotecaweb.dao.autore.AutoreDAO;
-import it.bibliotecaweb.model.Autore;
 import it.bibliotecaweb.entitymanager.EntityManagerUtil;
+import it.bibliotecaweb.model.Autore;
 
 public class AutoreServiceImpl implements AutoreService {
 
@@ -120,6 +123,31 @@ public class AutoreServiceImpl implements AutoreService {
 			throw e;
 		}
 		return autoreDAO.findByExample(input);
+	}
+
+	@Override
+	public List<String> validate(HttpServletRequest req) {
+		
+		List<String> errori = new ArrayList<>();
+
+		String nome = req.getParameter("nome");
+		if (nome == null || nome.equals("")) {
+			String erroreNome = "Nome è un campo obbligatorio!";
+			errori.add(erroreNome);
+		}
+
+		String cognome = req.getParameter("cognome");
+		if (cognome == null || cognome.equals("")) {
+			String erroreCognome = "Cognome è un campo obbligatorio!";
+			errori.add(erroreCognome);
+		}
+
+		String data = req.getParameter("data");
+		if (data == null || data.equals("")) {
+			String erroreData = "Data di nascita è un campo obbligatorio!";
+			errori.add(erroreData);
+		}
+		return errori;
 	}
 
 }
