@@ -1,5 +1,6 @@
 package it.bibliotecaweb.service.ruolo;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -15,33 +16,35 @@ public class RuoloServiceImpl implements RuoloService {
 	@Override
 	public Set<Ruolo> list() throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		Set<Ruolo> listaRuoli = new HashSet<>();
 		try {
 			entityManager.getTransaction().begin();
 			ruoloDAO.setEntityManager(entityManager);
-			ruoloDAO.list();
+			listaRuoli = ruoloDAO.list();
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
 			e.printStackTrace();
 			throw e;
 		}
-		return ruoloDAO.list();
+		return listaRuoli;
 	}
 
 	@Override
 	public Ruolo findById(int id) throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		Ruolo ruolo = new Ruolo();
 		try {
 			entityManager.getTransaction().begin();
 			ruoloDAO.setEntityManager(entityManager);
-			ruoloDAO.findById(id);
+			ruolo = ruoloDAO.findById(id);
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
 			e.printStackTrace();
 			throw e;
 		}
-		return ruoloDAO.findById(id);
+		return ruolo;
 	}
 
 	@Override
@@ -57,6 +60,8 @@ public class RuoloServiceImpl implements RuoloService {
 				entityManager.getTransaction().rollback();
 				e.printStackTrace();
 				throw e;
+			} finally {
+				entityManager.close();
 			}
 			return;
 		}
@@ -76,6 +81,8 @@ public class RuoloServiceImpl implements RuoloService {
 				entityManager.getTransaction().rollback();
 				e.printStackTrace();
 				throw e;
+			} finally {
+				entityManager.close();
 			}
 			return;
 		}
@@ -94,6 +101,8 @@ public class RuoloServiceImpl implements RuoloService {
 			entityManager.getTransaction().rollback();
 			e.printStackTrace();
 			throw e;
+		} finally {
+			entityManager.close();
 		}
 	}
 

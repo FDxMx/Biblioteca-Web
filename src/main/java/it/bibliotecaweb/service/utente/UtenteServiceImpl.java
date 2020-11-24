@@ -1,6 +1,7 @@
 package it.bibliotecaweb.service.utente;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -18,33 +19,35 @@ public class UtenteServiceImpl implements UtenteService {
 	@Override
 	public Set<Utente> list() throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		Set<Utente> listaUtenti = new HashSet<>();
 		try {
 			entityManager.getTransaction().begin();
 			utenteDAO.setEntityManager(entityManager);
-			utenteDAO.list();
+			listaUtenti = utenteDAO.list();
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
 			e.printStackTrace();
 			throw e;
 		}
-		return utenteDAO.list();
+		return listaUtenti;
 	}
 
 	@Override
 	public Utente findById(int id) throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		Utente utente = new Utente();
 		try {
 			entityManager.getTransaction().begin();
 			utenteDAO.setEntityManager(entityManager);
-			utenteDAO.findById(id);
+			utente = utenteDAO.findById(id);
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
 			e.printStackTrace();
 			throw e;
 		}
-		return utenteDAO.findById(id);
+		return utente;
 	}
 
 	@Override
@@ -60,6 +63,8 @@ public class UtenteServiceImpl implements UtenteService {
 				entityManager.getTransaction().rollback();
 				e.printStackTrace();
 				throw e;
+			} finally {
+				entityManager.close();
 			}
 			return;
 		}
@@ -79,6 +84,8 @@ public class UtenteServiceImpl implements UtenteService {
 				entityManager.getTransaction().rollback();
 				e.printStackTrace();
 				throw e;
+			} finally {
+				entityManager.close();
 			}
 			return;
 		}
@@ -97,6 +104,8 @@ public class UtenteServiceImpl implements UtenteService {
 			entityManager.getTransaction().rollback();
 			e.printStackTrace();
 			throw e;
+		} finally {
+			entityManager.close();
 		}
 		return;
 	}
@@ -118,6 +127,8 @@ public class UtenteServiceImpl implements UtenteService {
 			entityManager.getTransaction().rollback();
 			e.printStackTrace();
 			throw e;
+		} finally {
+			entityManager.close();
 		}
 	}
 
@@ -134,13 +145,15 @@ public class UtenteServiceImpl implements UtenteService {
 			entityManager.getTransaction().rollback();
 			e.printStackTrace();
 			throw e;
+		} finally {
+			entityManager.close();
 		}
 	}
 
 	@Override
 	public Utente findUtenteByUsernamePassword(String username, String password) {
 		Utente utente = null;
-		if(username != null && password != null && !username.equals("") && !password.equals("")) {
+		if (username != null && password != null && !username.equals("") && !password.equals("")) {
 			EntityManager entityManager = EntityManagerUtil.getEntityManager();
 			utenteDAO.setEntityManager(entityManager);
 			utente = utenteDAO.findUtenteByUsernamePassword(username, password);
@@ -151,54 +164,68 @@ public class UtenteServiceImpl implements UtenteService {
 	@Override
 	public Set<Utente> findByExample(Utente input) {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		Set<Utente> listaUtenti = new HashSet<>();
 		try {
 			entityManager.getTransaction().begin();
 			utenteDAO.setEntityManager(entityManager);
-			utenteDAO.findByExample(input);
+			listaUtenti = utenteDAO.findByExample(input);
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
 			e.printStackTrace();
 			throw e;
+		} finally {
+			entityManager.close();
 		}
-		return utenteDAO.findByExample(input);
+		return listaUtenti;
 	}
 
 	@Override
 	public List<String> validate(HttpServletRequest req) {
-		
 		List<String> errori = new ArrayList<>();
 
-		String nome = req.getParameter("nome");
-		if (nome == null || nome.equals("")) {
-			String erroreNome = "Il campo nome è obbligatorio!";
-			errori.add(erroreNome);
-		}
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		try {
+			entityManager.getTransaction().begin();
 
-		String cognome = req.getParameter("cognome");
-		if (cognome == null || cognome.equals("")) {
-			String erroreCognome = "Il campo cognome è obbligatorio!";
-			errori.add(erroreCognome);
-		}
+			String nome = req.getParameter("nome");
+			if (nome == null || nome.equals("")) {
+				String erroreNome = "Il campo nome è obbligatorio!";
+				errori.add(erroreNome);
+			}
 
-		String username = req.getParameter("username");
-		if (username == null || username.equals("")) {
-			String erroreUsername = "Il campo username è obbligatorio!";
-			errori.add(erroreUsername);
-		}
+			String cognome = req.getParameter("cognome");
+			if (cognome == null || cognome.equals("")) {
+				String erroreCognome = "Il campo cognome è obbligatorio!";
+				errori.add(erroreCognome);
+			}
 
-		String password = req.getParameter("password");
-		if (password == null || password.equals("")) {
-			String errorePassword = "Il campo password è obbligatorio!";
-			errori.add(errorePassword);
+			String username = req.getParameter("username");
+			if (username == null || username.equals("")) {
+				String erroreUsername = "Il campo username è obbligatorio!";
+				errori.add(erroreUsername);
+			}
+
+			String password = req.getParameter("password");
+			if (password == null || password.equals("")) {
+				String errorePassword = "Il campo password è obbligatorio!";
+				errori.add(errorePassword);
+			}
+
+			String[] ruoli = req.getParameterValues("idRuolo");
+			if (ruoli == null || ruoli.length == 0) {
+				String erroreRuoli = "Il campo ruoli è obbligatorio!";
+				errori.add(erroreRuoli);
+			}
+
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		} finally {
+			entityManager.close();
 		}
-		
-		String[] ruoli = req.getParameterValues("idRuolo");
-		if (ruoli == null || ruoli.length == 0) {
-			String erroreRuoli = "Il campo ruoli è obbligatorio!";
-			errori.add(erroreRuoli);
-		}
-		
 		return errori;
 	}
 

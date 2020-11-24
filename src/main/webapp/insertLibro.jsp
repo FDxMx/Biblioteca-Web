@@ -9,6 +9,35 @@
 	<!-- style per le pagine diverse dalla index -->
     <link href="./assets/css/global.css" rel="stylesheet">
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    
+    <script type="text/javascript">
+    
+    $(document).ready(function() {
+
+    	$("#form").submit(function( event ) {
+    		var messaggioErrore = "";
+    	  if ( $( "#titolo" ).val() == "" || $( "#titolo" ).val() == null){
+    		  messaggioErrore = messaggioErrore + "Campo TITOLO obbligatorio!\n";
+    	  }
+    	  if ( $( "#genere" ).val() == "" || $( "#genere" ).val() == null){
+    		  messaggioErrore = messaggioErrore + "Campo GENERE obbligatorio!\n";
+    	  }
+    	  if ( $( "#trama" ).val() == "" || $( "#trama" ).val() == null){
+    		  messaggioErrore = messaggioErrore + "Campo TRAMA obbligatorio!\n";
+      	  }
+    	  if ( $( "#autore" ).val() == "" || $( "#autore" ).val() == null){
+    		  messaggioErrore = messaggioErrore + "Campo AUTORE obbligatorio!\n";
+    	  }
+    	  if(messaggioErrore != ""){
+      		  alert(messaggioErrore);
+      		  event.preventDefault();
+        	  return;
+      	  }
+    	});
+    });
+    </script>
+    
 </head>
 <body>
 	<jsp:include page="./navbar.jsp" />
@@ -27,7 +56,7 @@
 		    </div>
 		    <div class='card-body'>
 
-					<form method="post" action="ExecuteInsertLibroServlet" novalidate="novalidate">
+					<form id="form" method="post" action="ExecuteInsertLibroServlet" novalidate="novalidate">
 					
 						<div class="form-row">
 							<div class="form-group col-md-6">

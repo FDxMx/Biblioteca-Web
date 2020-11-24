@@ -1,6 +1,7 @@
 package it.bibliotecaweb.service.autore;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -18,33 +19,33 @@ public class AutoreServiceImpl implements AutoreService {
 	@Override
 	public Set<Autore> list() throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		Set<Autore> listaAutori = new HashSet<>();
 		try {
-			entityManager.getTransaction().begin();
 			autoreDAO.setEntityManager(entityManager);
-			autoreDAO.list();
-			entityManager.getTransaction().commit();
+			listaAutori = autoreDAO.list();
 		} catch (Exception e) {
-			entityManager.getTransaction().rollback();
 			e.printStackTrace();
 			throw e;
+		} finally {
+			entityManager.close();
 		}
-		return autoreDAO.list();
+		return listaAutori;
 	}
 
 	@Override
 	public Autore findById(int id) throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		Autore autore = new Autore();
 		try {
-			entityManager.getTransaction().begin();
 			autoreDAO.setEntityManager(entityManager);
-			autoreDAO.findById(id);
-			entityManager.getTransaction().commit();
+			autore = autoreDAO.findById(id);
 		} catch (Exception e) {
-			entityManager.getTransaction().rollback();
 			e.printStackTrace();
 			throw e;
+		} finally {
+			entityManager.close();
 		}
-		return autoreDAO.findById(id);
+		return autore;
 	}
 
 	@Override
@@ -60,6 +61,8 @@ public class AutoreServiceImpl implements AutoreService {
 				entityManager.getTransaction().rollback();
 				e.printStackTrace();
 				throw e;
+			} finally {
+				entityManager.close();
 			}
 			return;
 		}
@@ -79,6 +82,8 @@ public class AutoreServiceImpl implements AutoreService {
 				entityManager.getTransaction().rollback();
 				e.printStackTrace();
 				throw e;
+			} finally {
+				entityManager.close();
 			}
 			return;
 		}
@@ -87,7 +92,7 @@ public class AutoreServiceImpl implements AutoreService {
 
 	@Override
 	public void delete(Autore input) throws Exception {
-		if(input.getLibri().size() < 1) {
+		if (input.getLibri().size() < 1) {
 			EntityManager entityManager = EntityManagerUtil.getEntityManager();
 			try {
 				entityManager.getTransaction().begin();
@@ -98,6 +103,8 @@ public class AutoreServiceImpl implements AutoreService {
 				entityManager.getTransaction().rollback();
 				e.printStackTrace();
 				throw e;
+			} finally {
+				entityManager.close();
 			}
 			return;
 		}
@@ -112,40 +119,53 @@ public class AutoreServiceImpl implements AutoreService {
 	@Override
 	public Set<Autore> findByExample(Autore input) {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		Set<Autore> listaAutori = new HashSet<>();
 		try {
 			entityManager.getTransaction().begin();
 			autoreDAO.setEntityManager(entityManager);
-			autoreDAO.findByExample(input);
+			listaAutori = autoreDAO.findByExample(input);
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
 			e.printStackTrace();
 			throw e;
+		} finally {
+			entityManager.close();
 		}
-		return autoreDAO.findByExample(input);
+		return listaAutori;
 	}
 
 	@Override
 	public List<String> validate(HttpServletRequest req) {
-		
+
 		List<String> errori = new ArrayList<>();
 
-		String nome = req.getParameter("nome");
-		if (nome == null || nome.equals("")) {
-			String erroreNome = "Nome è un campo obbligatorio!";
-			errori.add(erroreNome);
-		}
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		try {
+			String nome = req.getParameter("nome");
+			if (nome == null || nome.equals("")) {
+				String erroreNome = "Nome è un campo obbligatorio!";
+				errori.add(erroreNome);
+			}
 
-		String cognome = req.getParameter("cognome");
-		if (cognome == null || cognome.equals("")) {
-			String erroreCognome = "Cognome è un campo obbligatorio!";
-			errori.add(erroreCognome);
-		}
+			String cognome = req.getParameter("cognome");
+			if (cognome == null || cognome.equals("")) {
+				String erroreCognome = "Cognome è un campo obbligatorio!";
+				errori.add(erroreCognome);
+			}
 
-		String data = req.getParameter("data");
-		if (data == null || data.equals("")) {
-			String erroreData = "Data di nascita è un campo obbligatorio!";
-			errori.add(erroreData);
+			String data = req.getParameter("data");
+			if (data == null || data.equals("")) {
+				String erroreData = "Data di nascita è un campo obbligatorio!";
+				errori.add(erroreData);
+			}
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		} finally {
+			entityManager.close();
 		}
 		return errori;
 	}

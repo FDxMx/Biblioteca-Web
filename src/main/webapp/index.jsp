@@ -7,7 +7,7 @@
 	
 	  <!-- Bootstrap CSS -->
 	  <link rel="stylesheet" href="./assets/css/bootstrap.min.css" >
-	
+	  
 	  <title>Accedi</title>
 	  
 	  <!-- Favicons -->
@@ -40,10 +40,33 @@
 	  
 	  <!-- Custom styles for this template -->
 	  <link href="./assets/css/signin.css" rel="stylesheet">
+	  
+	   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    
+      <script type="text/javascript">
+    
+    $(document).ready(function() {
+
+    	$("#form").submit(function( event ) {
+    		var messaggioErrore = "";
+    		if ( $( "#username" ).val() == "" || $( "#username" ).val() == null){
+        	  	messaggioErrore = messaggioErrore + "Campo USERNAME obbligatorio!\n";
+            }
+        	if ( $( "#password" ).val() == "" || $( "#password" ).val() == null){
+        		  messaggioErrore = messaggioErrore + "Campo PASSWORD obbligatorio!\n";
+        	}
+    	    if(messaggioErrore != ""){
+      		  alert(messaggioErrore);
+      		  event.preventDefault();
+        	  return;
+      	    }
+    	});
+    });
+    </script>
 	</head>
 	<body class="text-center">
 		
-	   	<form class="form-signin" action="LogInServlet" method="post">
+	   	<form id = "form" class="form-signin" action="LogInServlet" method="post" novalidate = "novalidate">
 	   	
 		   	<div class="alert alert-danger alert-dismissible fade show ${errorMessage==null?'d-none': ''}" role="alert">
 			  ${errorMessage}
@@ -63,7 +86,7 @@
 		      <!-- <input type="checkbox" value="remember-me"> Remember me -->
 		    </label>
 		  </div>
-		  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+		  <button  id="submit" class="btn btn-lg btn-primary btn-block" type="submit" name="submit" value="submit">Sign in</button>
 		  <p class="mt-5 mb-3 text-muted">&copy; 2017-2020</p>
 		</form>
 	</body>

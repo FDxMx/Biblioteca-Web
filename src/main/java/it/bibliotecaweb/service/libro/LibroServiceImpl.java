@@ -1,6 +1,7 @@
 package it.bibliotecaweb.service.libro;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -18,33 +19,35 @@ public class LibroServiceImpl implements LibroService {
 	@Override
 	public Set<Libro> list() throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		Set<Libro> listaLibri = new HashSet<>();
 		try {
 			entityManager.getTransaction().begin();
 			libroDAO.setEntityManager(entityManager);
-			libroDAO.list();
+			listaLibri = libroDAO.list();
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
 			e.printStackTrace();
 			throw e;
 		}
-		return libroDAO.list();
+		return listaLibri;
 	}
 
 	@Override
 	public Libro findById(int id) throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		Libro libro = new Libro();
 		try {
 			entityManager.getTransaction().begin();
 			libroDAO.setEntityManager(entityManager);
-			libroDAO.findById(id);
+			libro = libroDAO.findById(id);
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
 			e.printStackTrace();
 			throw e;
 		}
-		return libroDAO.findById(id);
+		return libro;
 	}
 
 	@Override
@@ -60,6 +63,8 @@ public class LibroServiceImpl implements LibroService {
 				entityManager.getTransaction().rollback();
 				e.printStackTrace();
 				throw e;
+			} finally {
+				entityManager.close();
 			}
 			return;
 		}
@@ -79,6 +84,8 @@ public class LibroServiceImpl implements LibroService {
 				entityManager.getTransaction().rollback();
 				e.printStackTrace();
 				throw e;
+			} finally {
+				entityManager.close();
 			}
 			return;
 		}
@@ -87,18 +94,20 @@ public class LibroServiceImpl implements LibroService {
 
 	@Override
 	public void delete(Libro input) throws Exception {
-			EntityManager entityManager = EntityManagerUtil.getEntityManager();
-			try {
-				entityManager.getTransaction().begin();
-				libroDAO.setEntityManager(entityManager);
-				libroDAO.delete(input);
-				entityManager.getTransaction().commit();
-			} catch (Exception e) {
-				entityManager.getTransaction().rollback();
-				e.printStackTrace();
-				throw e;
-			}
-			return;
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		try {
+			entityManager.getTransaction().begin();
+			libroDAO.setEntityManager(entityManager);
+			libroDAO.delete(input);
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		} finally {
+			entityManager.close();
+		}
+		return;
 	}
 
 	@Override
@@ -109,17 +118,20 @@ public class LibroServiceImpl implements LibroService {
 	@Override
 	public Set<Libro> findByExample(Libro input) {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		Set<Libro> listaLibri = new HashSet<>();
 		try {
 			entityManager.getTransaction().begin();
 			libroDAO.setEntityManager(entityManager);
-			libroDAO.findByExample(input);
+			listaLibri = libroDAO.findByExample(input);
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
 			e.printStackTrace();
 			throw e;
+		} finally {
+			entityManager.close();
 		}
-		return libroDAO.findByExample(input);
+		return listaLibri;
 	}
 
 	@Override
@@ -127,28 +139,38 @@ public class LibroServiceImpl implements LibroService {
 
 		List<String> errori = new ArrayList<>();
 
-		String titolo = req.getParameter("titolo");
-		if (titolo == null || titolo.equals("")) {
-			String erroreTitolo = "Titolo è un campo obbligatorio!";
-			errori.add(erroreTitolo);
-		}
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		try {
+			String titolo = req.getParameter("titolo");
+			if (titolo == null || titolo.equals("")) {
+				String erroreTitolo = "Titolo è un campo obbligatorio!";
+				errori.add(erroreTitolo);
+			}
 
-		String genere = req.getParameter("genere");
-		if (genere == null || genere.equals("")) {
-			String erroreGenere = "Genere è un campo obbligatorio!";
-			errori.add(erroreGenere);
-		}
+			String genere = req.getParameter("genere");
+			if (genere == null || genere.equals("")) {
+				String erroreGenere = "Genere è un campo obbligatorio!";
+				errori.add(erroreGenere);
+			}
 
-		String trama = req.getParameter("trama");
-		if (trama == null || trama.equals("")) {
-			String erroreTrama = "Trama di nascita è un campo obbligatorio!";
-			errori.add(erroreTrama);
-		}
-		
-		String autore = req.getParameter("autore");
-		if (autore == null || autore.equals("")) {
-			String erroreAutore = "Autore è un campo obbligatorio!";
-			errori.add(erroreAutore);
+			String trama = req.getParameter("trama");
+			if (trama == null || trama.equals("")) {
+				String erroreTrama = "Trama di nascita è un campo obbligatorio!";
+				errori.add(erroreTrama);
+			}
+
+			String autore = req.getParameter("autore");
+			if (autore == null || autore.equals("")) {
+				String erroreAutore = "Autore è un campo obbligatorio!";
+				errori.add(erroreAutore);
+			}
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		} finally {
+			entityManager.close();
 		}
 		return errori;
 	}

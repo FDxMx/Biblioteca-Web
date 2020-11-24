@@ -58,6 +58,7 @@ public class ExecuteUpdateLibroServlet extends HttpServlet {
 						request.setAttribute("errore", "Attenzione, nessuna modifica effettuata!");
 						request.setAttribute("idParametro", id);
 						request.getRequestDispatcher("PrepareUpdateLibroServlet").forward(request, response);
+						return;
 					}
 				}
 				MyServiceFactory.getLibroServiceInstance().update(libro);

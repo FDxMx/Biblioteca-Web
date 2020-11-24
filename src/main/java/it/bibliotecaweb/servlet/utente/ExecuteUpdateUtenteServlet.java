@@ -75,6 +75,7 @@ public class ExecuteUpdateUtenteServlet extends HttpServlet {
 						request.setAttribute("errore", "Attenzione, nessuna modifica effettuata!");
 						request.setAttribute("idParametro", id);
 						request.getRequestDispatcher("PrepareUpdateUtenteServlet").forward(request, response);
+						return;
 					}
 				}
 				MyServiceFactory.getUtenteServiceInstance().update(utente);
@@ -82,7 +83,6 @@ public class ExecuteUpdateUtenteServlet extends HttpServlet {
 				request.getRequestDispatcher("ListaUtentiServlet").forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.out.println("errore");
 			}
 		}else {
 			request.setAttribute("errore", "Attenzione, inserire tutti i campi!");

@@ -9,6 +9,32 @@
 	<!-- style per le pagine diverse dalla index -->
     <link href="./assets/css/global.css" rel="stylesheet">
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    
+    <script type="text/javascript">
+    
+    $(document).ready(function() {
+
+    	$("#form").submit(function( event ) {
+    		var messaggioErrore = "";
+    		if ( $( "#nome" ).val() == "" || $( "#nome" ).val() == null){
+        	  	messaggioErrore = messaggioErrore + "Campo NOME obbligatorio!\n";
+            }
+        	if ( $( "#cognome" ).val() == "" || $( "#cognome" ).val() == null){
+        		  messaggioErrore = messaggioErrore + "Campo COGNOME obbligatorio!\n";
+        	}
+    	    if ( $( "#data" ).val() == "" || $( "#data" ).val() == null){
+    		  messaggioErrore = messaggioErrore + "Campo DATA DI NASCITA obbligatorio!\n";
+      	    }
+    	    if(messaggioErrore != ""){
+      		  alert(messaggioErrore);
+      		  event.preventDefault();
+        	  return;
+      	    }
+    	});
+    });
+    </script>
+    
 </head>
 <body>
 	<jsp:include page="./navbar.jsp" />
@@ -24,7 +50,7 @@
 		    </div>
 		    <div class='card-body'>
 
-					<form method="post" action="ExecuteUpdateAutoreServlet" novalidate="novalidate">
+					<form id="form" method="post" action="ExecuteUpdateAutoreServlet" novalidate="novalidate">
 					
 					<input type="hidden" name="id" id="id" value="${requestScope.autore.id}">
 					
